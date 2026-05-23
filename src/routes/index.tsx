@@ -16,6 +16,7 @@ import {
   Code2,
   Quote,
   Share2,
+  Menu,
 } from "lucide-react";
 import profileImg from "@/assets/profile.jpg";
 
