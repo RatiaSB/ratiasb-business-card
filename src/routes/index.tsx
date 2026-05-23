@@ -15,6 +15,7 @@ import {
   QrCode,
   Code2,
   Quote,
+  Share2,
 } from "lucide-react";
 import profileImg from "@/assets/profile.jpg";
 
