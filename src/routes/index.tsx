@@ -16,6 +16,7 @@ import {
   Code2,
   Quote,
   Share2,
+  Menu,
 } from "lucide-react";
 import profileImg from "@/assets/profile.jpg";
 
@@ -63,8 +64,82 @@ function Index() {
   return (
     <main className="min-h-screen bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
       <div className="mx-auto w-full max-w-5xl space-y-6">
-        {/* HERO */}
-        <section className="relative overflow-hidden rounded-3xl bg-card shadow-[var(--shadow-card)]">
+        {/* ============================================================
+            MOBILE / TABLET HERO (matches reference mock)
+        ============================================================ */}
+        <section className="relative overflow-hidden rounded-3xl bg-card p-6 shadow-[var(--shadow-card)] lg:hidden">
+          {/* red triangle accent bottom-right */}
+          <div
+            className="pointer-events-none absolute bottom-0 right-0 h-40 w-40"
+            style={{
+              background:
+                "linear-gradient(135deg, transparent 0%, transparent 50%, var(--brand-red) 50%)",
+              opacity: 0.95,
+            }}
+            aria-hidden
+          />
+
+          {/* top bar */}
+          <div className="relative flex items-center justify-between">
+            <CodeBracket />
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="rounded-md p-2 text-foreground/80 transition hover:text-foreground"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* profile */}
+          <div className="relative mt-4 flex flex-col items-center text-center">
+            <div className="rounded-full p-1.5 ring-2 ring-brand-red shadow-[var(--shadow-red)]">
+              <img
+                src={profileImg}
+                alt="Portrait of Your Name"
+                width={140}
+                height={140}
+                className="h-32 w-32 rounded-full object-cover"
+              />
+            </div>
+            <h1 className="mt-5 text-3xl font-extrabold tracking-tight">Your Name</h1>
+            <p className="mt-1 text-sm text-foreground/80">
+              IT Student &amp; Software Developer
+            </p>
+            <div className="mt-3 h-0.5 w-16 rounded bg-brand-red" />
+          </div>
+
+          {/* stacked action buttons */}
+          <div className="relative mt-6 space-y-3">
+            {actions.map((a) => (
+              <button
+                key={a.label}
+                className="flex w-full items-center gap-3 rounded-2xl bg-brand-navy-deep px-4 py-3 text-left text-foreground shadow-md transition hover:-translate-y-0.5 hover:bg-brand-navy-deep/80"
+              >
+                <span
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${a.tone} text-white shadow`}
+                >
+                  <a.icon className="h-4 w-4" />
+                </span>
+                <span className="text-sm font-semibold">{a.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* View My Links */}
+          <a
+            href="#my-links"
+            className="relative mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-red px-4 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5"
+          >
+            <LinkIcon className="h-4 w-4" />
+            View My Links
+          </a>
+        </section>
+
+        {/* ============================================================
+            DESKTOP HERO (unchanged from before — lg and up)
+        ============================================================ */}
+        <section className="relative hidden overflow-hidden rounded-3xl bg-card shadow-[var(--shadow-card)] lg:block">
           {/* Red angled accent */}
           <div
             className="absolute inset-0"
@@ -75,7 +150,10 @@ function Index() {
             }}
             aria-hidden
           />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,oklch(0.30_0.08_250)_0%,transparent_45%)]" aria-hidden />
+          <div
+            className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,oklch(0.30_0.08_250)_0%,transparent_45%)]"
+            aria-hidden
+          />
 
           <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="flex items-start gap-6">
@@ -105,8 +183,6 @@ function Index() {
                   Passionate about building clean, efficient and user-friendly digital solutions.
                   Always learning. Always building.
                 </p>
-
-                {/* Share link button — mobile & tablet only */}
                 <button
                   type="button"
                   onClick={() => {
@@ -118,7 +194,7 @@ function Index() {
                       nav.clipboard.writeText(url);
                     }
                   }}
-                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-red px-5 py-2.5 text-sm font-semibold text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5 lg:hidden"
+                  className="mt-5 hidden items-center gap-2 rounded-full bg-brand-red px-5 py-2.5 text-sm font-semibold text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5"
                 >
                   <Share2 className="h-4 w-4" />
                   Share Link
@@ -126,8 +202,8 @@ function Index() {
               </div>
             </div>
 
-            {/* QR — desktop only */}
-            <div className="relative mx-auto hidden flex-col items-center gap-3 lg:mx-0 lg:flex">
+            {/* QR — desktop */}
+            <div className="relative mx-auto flex flex-col items-center gap-3 lg:mx-0">
               <div className="rounded-2xl bg-white p-3 shadow-xl">
                 <img
                   src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fyourportfolio.com&margin=0"
@@ -145,14 +221,16 @@ function Index() {
           </div>
         </section>
 
-        {/* ACTIONS */}
-        <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {/* ACTIONS — desktop only (mobile/tablet has them inside hero) */}
+        <section className="hidden grid-cols-2 gap-3 md:grid-cols-4 lg:grid">
           {actions.map((a) => (
             <button
               key={a.label}
               className="group flex items-center gap-3 rounded-2xl bg-card p-4 text-left shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:bg-secondary"
             >
-              <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${a.tone} text-white shadow-md`}>
+              <span
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${a.tone} text-white shadow-md`}
+              >
                 <a.icon className="h-5 w-5" />
               </span>
               <span className="min-w-0">
@@ -176,7 +254,7 @@ function Index() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+          <div id="my-links" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
             <div className="mb-4 flex items-center gap-2">
               <LinkIcon className="h-4 w-4 text-brand-red" />
               <h2 className="text-sm font-bold tracking-widest text-foreground/90">MY LINKS</h2>
