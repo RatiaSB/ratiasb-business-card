@@ -77,7 +77,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,oklch(0.30_0.08_250)_0%,transparent_45%)]" aria-hidden />
 
-          <div className="relative grid gap-8 p-6 sm:p-10 md:grid-cols-[1fr_auto] md:items-center">
+          <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="flex items-start gap-6">
               <CodeBracket className="absolute left-6 top-6 sm:left-10 sm:top-10" />
 
@@ -105,11 +105,28 @@ function Index() {
                   Passionate about building clean, efficient and user-friendly digital solutions.
                   Always learning. Always building.
                 </p>
+
+                {/* Share link button — mobile & tablet only */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const url = "https://yourportfolio.com";
+                    if (typeof navigator !== "undefined" && "share" in navigator) {
+                      navigator.share({ title: "Your Name", url }).catch(() => {});
+                    } else if (typeof navigator !== "undefined" && navigator.clipboard) {
+                      navigator.clipboard.writeText(url);
+                    }
+                  }}
+                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-red px-5 py-2.5 text-sm font-semibold text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5 lg:hidden"
+                >
+                  <Share2 className="h-4 w-4" />
+                  Share Link
+                </button>
               </div>
             </div>
 
-            {/* QR */}
-            <div className="relative mx-auto flex flex-col items-center gap-3 md:mx-0">
+            {/* QR — desktop only */}
+            <div className="relative mx-auto hidden flex-col items-center gap-3 lg:mx-0 lg:flex">
               <div className="rounded-2xl bg-white p-3 shadow-xl">
                 <img
                   src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fyourportfolio.com&margin=0"
