@@ -102,7 +102,7 @@ function Index() {
                 className="h-32 w-32 rounded-full object-cover"
               />
             </div>
-            <h1 className="mt-5 text-3xl font-extrabold tracking-tight">Your Name</h1>
+            <h1 className="mt-5 text-3xl font-extrabold tracking-tight">Swatsi Bongani Ratia</h1>
             <p className="mt-1 text-sm text-foreground/80">
               Software Developer
             </p>
@@ -176,7 +176,7 @@ function Index() {
                   Your Name
                 </h1>
                 <p className="mt-1 text-base text-foreground/85 sm:text-lg">
-                  IT Student &amp; Software Developer
+                  Software Developer
                 </p>
                 <div className="mt-3 h-0.5 w-16 rounded bg-brand-red" />
                 <p className="mt-4 max-w-md text-sm leading-relaxed text-foreground/80 sm:text-base">
