@@ -254,7 +254,7 @@ function Index() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+          <div id="my-links" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
             <div className="mb-4 flex items-center gap-2">
               <LinkIcon className="h-4 w-4 text-brand-red" />
               <h2 className="text-sm font-bold tracking-widest text-foreground/90">MY LINKS</h2>
