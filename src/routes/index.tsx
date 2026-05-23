@@ -173,7 +173,7 @@ function Index() {
 
               <div className="pt-10 sm:pt-12">
                 <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-                  Your Name
+                  Swatsi Bongani Ratia
                 </h1>
                 <p className="mt-1 text-base text-foreground/85 sm:text-lg">
                   Software Developer
