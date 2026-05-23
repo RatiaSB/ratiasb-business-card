@@ -35,8 +35,8 @@ export const Route = createFileRoute("/")({
 });
 
 const links = [
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/yourprofile", href: "linkedin.com/in/ratiasb" },
-  { icon: Github, label: "GitHub", value: "github.com/yourusername", href: "#" },
+  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/ratiasb", href: "linkedin.com/in/ratiasb" },
+  { icon: Github, label: "GitHub", value: "github.com/ratiasb", href: "github.com/ratiasb" },
   { icon: Globe, label: "Portfolio", value: "yourportfolio.com", href: "#" },
   { icon: FileText, label: "Resume / CV", value: "view or download", href: "#" },
 ];
