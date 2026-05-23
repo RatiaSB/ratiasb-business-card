@@ -111,10 +111,11 @@ function Index() {
                   type="button"
                   onClick={() => {
                     const url = "https://yourportfolio.com";
-                    if (typeof navigator !== "undefined" && "share" in navigator) {
-                      navigator.share({ title: "Your Name", url }).catch(() => {});
-                    } else if (typeof navigator !== "undefined" && navigator.clipboard) {
-                      navigator.clipboard.writeText(url);
+                    const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
+                    if (nav.share) {
+                      nav.share({ title: "Your Name", url }).catch(() => {});
+                    } else if (nav.clipboard) {
+                      nav.clipboard.writeText(url);
                     }
                   }}
                   className="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-red px-5 py-2.5 text-sm font-semibold text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5 lg:hidden"
