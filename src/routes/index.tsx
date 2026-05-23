@@ -18,7 +18,7 @@ import {
   Share2,
   Menu,
 } from "lucide-react";
-import profileImg from "@/assets/profile.jpg";
+import profileImg from "@/assets/Profile.jpeg";
 
 export const Route = createFileRoute("/")({
   component: Index,
