@@ -24,28 +24,28 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Your Name — IT Student & Software Developer" },
+      { title: "Swatsi Bongani Ratia — Software Developer" },
       {
         name: "description",
         content:
-          "Digital business card for an IT student and software developer. Scan, call, email, or save the contact instantly.",
+          "Digital business card for a software developer. Scan, call, email, or save the contact instantly.",
       },
     ],
   }),
 });
 
 const links = [
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/yourprofile", href: "#" },
+  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/yourprofile", href: "linkedin.com/in/ratiasb" },
   { icon: Github, label: "GitHub", value: "github.com/yourusername", href: "#" },
   { icon: Globe, label: "Portfolio", value: "yourportfolio.com", href: "#" },
   { icon: FileText, label: "Resume / CV", value: "view or download", href: "#" },
 ];
 
-const skills = ["HTML", "CSS", "JavaScript", "React", "Node.js", "Python", "C#", "MySQL", "Git", "UI/UX"];
+const skills = ["HTML", "CSS", "JavaScript", "React", "Node.js", "Python", "Java", "MySQL", "Git", "UI/UX"];
 
 const actions = [
-  { icon: Phone, label: "Call", sub: "+27 12 345 6789", tone: "bg-sky-500" },
-  { icon: Mail, label: "Email", sub: "youremail@email.com", tone: "bg-brand-red" },
+  { icon: Phone, label: "Call", sub: "+27 81 218 5608", tone: "bg-sky-500" },
+  { icon: Mail, label: "Email", sub: "swazibongani33@yahoo.com", tone: "bg-brand-red" },
   { icon: MessageCircle, label: "WhatsApp", sub: "Chat with me", tone: "bg-emerald-500" },
   { icon: UserPlus, label: "Save Contact", sub: "Add to phone", tone: "bg-sky-500" },
 ];
@@ -104,7 +104,7 @@ function Index() {
             </div>
             <h1 className="mt-5 text-3xl font-extrabold tracking-tight">Your Name</h1>
             <p className="mt-1 text-sm text-foreground/80">
-              IT Student &amp; Software Developer
+              Software Developer
             </p>
             <div className="mt-3 h-0.5 w-16 rounded bg-brand-red" />
           </div>
