@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Phone,
   Mail,
@@ -19,9 +19,12 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
+const menuItemClass =
+  "relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground";
 
 export const navSections = [
   { to: "/about", id: "about", label: "About Me", icon: UserPlus },
@@ -68,6 +71,8 @@ export function SectionMenu({
   className?: string;
   mode?: "auto" | "route" | "scroll";
 }) {
+  const navigate = useNavigate();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -78,23 +83,17 @@ export function SectionMenu({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         {navSections.map((s) => (
-          <DropdownMenuItem key={s.id} asChild className="gap-2">
-            {mode === "scroll" ? (
-              <button
-                type="button"
-                onClick={() => scrollToSection(s.id)}
-                className="flex w-full items-center gap-2"
-              >
-                <s.icon className="h-4 w-4 text-brand-red" />
-                {s.label}
-              </button>
-            ) : (
-              <Link to={s.to} className="flex w-full items-center gap-2">
-                <s.icon className="h-4 w-4 text-brand-red" />
-                {s.label}
-              </Link>
-            )}
-          </DropdownMenuItem>
+          <button
+            key={s.id}
+            role="menuitem"
+            className={menuItemClass}
+            onClick={() =>
+              mode === "scroll" ? scrollToSection(s.id) : navigate({ to: s.to })
+            }
+          >
+            <s.icon className="h-4 w-4 text-brand-red" />
+            {s.label}
+          </button>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -106,6 +105,7 @@ export function SectionMenu({
 export function NavBar() {
   const { location } = useRouterState();
   const currentPath = location.pathname;
+  const navigate = useNavigate();
 
   return (
     <nav
@@ -163,19 +163,24 @@ export function NavBar() {
               <Menu className="h-5 w-5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-52">
-              <DropdownMenuItem asChild>
-                <Link to="/" className="flex w-full items-center gap-2">
-                  <Home className="h-4 w-4 text-brand-red" />
-                  Home
-                </Link>
-              </DropdownMenuItem>
+              <button
+                role="menuitem"
+                className={menuItemClass}
+                onClick={() => navigate({ to: "/" })}
+              >
+                <Home className="h-4 w-4 text-brand-red" />
+                Home
+              </button>
               {navSections.map((s) => (
-                <DropdownMenuItem key={s.id} asChild>
-                  <Link to={s.to} className="flex w-full items-center gap-2">
-                    <s.icon className="h-4 w-4 text-brand-red" />
-                    {s.label}
-                  </Link>
-                </DropdownMenuItem>
+                <button
+                  key={s.id}
+                  role="menuitem"
+                  className={menuItemClass}
+                  onClick={() => navigate({ to: s.to })}
+                >
+                  <s.icon className="h-4 w-4 text-brand-red" />
+                  {s.label}
+                </button>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>

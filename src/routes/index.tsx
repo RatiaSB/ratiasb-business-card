@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { navSections as navSectionsList } from "@/components/business-card";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   Phone,
   Mail,
@@ -22,7 +21,6 @@ import profileImg from "@/assets/Profile.jpeg";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -37,6 +35,9 @@ function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+const menuItemClass =
+  "relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground";
+
 function SectionMenu({ className = "" }: { className?: string }) {
   return (
     <DropdownMenu>
@@ -48,10 +49,15 @@ function SectionMenu({ className = "" }: { className?: string }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         {navSections.map((s) => (
-          <DropdownMenuItem key={s.id} onSelect={() => scrollToSection(s.id)} className="gap-2">
+          <button
+            key={s.id}
+            role="menuitem"
+            className={menuItemClass}
+            onClick={() => scrollToSection(s.id)}
+          >
             <s.icon className="h-4 w-4 text-brand-red" />
             {s.label}
-          </DropdownMenuItem>
+          </button>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -158,20 +164,6 @@ function Index() {
               </button>
             ))}
           </div>
-
-          {/* Section navigation (mobile/tablet) */}
-          <nav className="relative mt-5 grid grid-cols-2 gap-2">
-            {navSectionsList.map((s) => (
-              <Link
-                key={s.to}
-                to={s.to}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-brand-red px-3 py-3 text-xs font-bold uppercase tracking-wide text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5"
-              >
-                <s.icon className="h-4 w-4" />
-                {s.label}
-              </Link>
-            ))}
-          </nav>
         </section>
 
 
