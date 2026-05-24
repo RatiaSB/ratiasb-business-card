@@ -14,11 +14,48 @@ import {
   ChevronRight,
   QrCode,
   Code2,
-  Quote,
   Share2,
   Menu,
 } from "lucide-react";
 import profileImg from "@/assets/Profile.jpeg";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const navSections = [
+  { id: "about", label: "About Me", icon: UserPlus },
+  { id: "my-links", label: "My Links", icon: LinkIcon },
+  { id: "skills", label: "Skills", icon: Code2 },
+  { id: "connect", label: "Let's Connect", icon: Mail },
+];
+
+function scrollToSection(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function SectionMenu({ className = "" }: { className?: string }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label="Open menu"
+        className={`rounded-md p-2 text-foreground/80 transition hover:text-foreground ${className}`}
+      >
+        <Menu className="h-6 w-6" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        {navSections.map((s) => (
+          <DropdownMenuItem key={s.id} onSelect={() => scrollToSection(s.id)} className="gap-2">
+            <s.icon className="h-4 w-4 text-brand-red" />
+            {s.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -82,14 +119,9 @@ function Index() {
           {/* top bar */}
           <div className="relative flex items-center justify-between">
             <CodeBracket />
-            <button
-              type="button"
-              aria-label="Open menu"
-              className="rounded-md p-2 text-foreground/80 transition hover:text-foreground"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
+            <SectionMenu />
           </div>
+
 
           {/* profile */}
           <div className="relative mt-4 flex flex-col items-center text-center">
@@ -158,6 +190,9 @@ function Index() {
           <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="flex items-start gap-6">
               <CodeBracket className="absolute left-6 top-6 sm:left-10 sm:top-10" />
+              <div className="absolute right-6 top-6 z-10 sm:right-10 sm:top-10">
+                <SectionMenu className="bg-brand-navy-deep/60 text-white backdrop-blur hover:bg-brand-navy-deep" />
+              </div>
 
               <div className="relative shrink-0 pt-10 sm:pt-12">
                 <div className="rounded-full p-1.5 ring-2 ring-brand-red shadow-[var(--shadow-red)]">
@@ -243,7 +278,7 @@ function Index() {
 
         {/* ABOUT + LINKS */}
         <section className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+          <div id="about" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
             <div className="mb-3 flex items-center gap-2">
               <UserPlus className="h-4 w-4 text-brand-red" />
               <h2 className="text-sm font-bold tracking-widest text-foreground/90">ABOUT ME</h2>
@@ -282,7 +317,7 @@ function Index() {
         </section>
 
         {/* SKILLS */}
-        <section className="rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+        <section id="skills" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
           <div className="mb-4 flex items-center gap-2">
             <Code2 className="h-4 w-4 text-brand-red" />
             <h2 className="text-sm font-bold tracking-widest text-foreground/90">SKILLS</h2>
@@ -300,7 +335,7 @@ function Index() {
         </section>
 
         {/* CONNECT */}
-        <section className="rounded-2xl bg-card p-6 text-center shadow-[var(--shadow-card)]">
+        <section id="connect" className="scroll-mt-6 rounded-2xl bg-card p-6 text-center shadow-[var(--shadow-card)]">
           <p className="mb-4 text-xs font-bold tracking-[0.25em] text-muted-foreground">
             LET&apos;S CONNECT
           </p>
@@ -322,25 +357,8 @@ function Index() {
             ))}
           </div>
         </section>
-
-        {/* FOOTER QUOTE */}
-        <section className="relative overflow-hidden rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
-          <div
-            className="absolute right-0 top-0 h-full w-1/3"
-            style={{
-              background: "linear-gradient(135deg, transparent 0%, transparent 50%, var(--brand-red) 50%)",
-              opacity: 0.9,
-            }}
-            aria-hidden
-          />
-          <div className="relative flex items-center gap-3">
-            <Quote className="h-5 w-5 shrink-0 text-brand-red" />
-            <p className="font-mono text-sm italic text-foreground/90 sm:text-base">
-              Code. Learn. Build. Repeat.
-            </p>
-          </div>
-        </section>
       </div>
     </main>
   );
 }
+
