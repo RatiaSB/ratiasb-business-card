@@ -35,8 +35,8 @@ export const navSections = [
 ] as const;
 
 export const links = [
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/ratiasb", href: "linkedin.com/in/ratiasb" },
-  { icon: Github, label: "GitHub", value: "github.com/ratiasb", href: "github.com/ratiasb" },
+  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/ratiasb", href: "https://linkedin.com/in/ratiasb" },
+  { icon: Github, label: "GitHub", value: "github.com/ratiasb", href: "https://github.com/ratiasb" },
   { icon: Globe, label: "Portfolio", value: "yourportfolio.com", href: "#" },
   { icon: FileText, label: "Resume / CV", value: "view or download", href: "#" },
 ];
@@ -254,6 +254,8 @@ export function LinksSection({ withId = true }: { withId?: boolean }) {
           <li key={l.label}>
             <a
               href={l.href}
+              target={l.href.startsWith("http") ? "_blank" : undefined}
+              rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
               className="flex items-center gap-3 rounded-xl bg-secondary/60 p-3 transition hover:bg-secondary hover:ring-1 hover:ring-brand-red/40"
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-navy-deep text-brand-red">
@@ -307,15 +309,17 @@ export function ConnectSection({ withId = true }: { withId?: boolean }) {
       </p>
       <div className="flex justify-center gap-3">
         {[
-          { Icon: Linkedin, tone: "bg-sky-600" },
-          { Icon: Github, tone: "bg-neutral-800" },
-          { Icon: Twitter, tone: "bg-sky-500" },
-          { Icon: Instagram, tone: "bg-gradient-to-br from-fuchsia-500 to-orange-400" },
-          { Icon: Mail, tone: "bg-brand-red" },
-        ].map(({ Icon, tone }, i) => (
+          { Icon: Linkedin, tone: "bg-sky-600", href: "https://linkedin.com/in/ratiasb" },
+          { Icon: Github, tone: "bg-neutral-800", href: "https://github.com/ratiasb" },
+          { Icon: Twitter, tone: "bg-sky-500", href: "#" },
+          { Icon: Instagram, tone: "bg-gradient-to-br from-fuchsia-500 to-orange-400", href: "#" },
+          { Icon: Mail, tone: "bg-brand-red", href: "mailto:swazibongani33@yahoo.com" },
+        ].map(({ Icon, tone, href }, i) => (
           <a
             key={i}
-            href="#"
+            href={href}
+            target={href.startsWith("http") ? "_blank" : undefined}
+            rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
             className={`flex h-11 w-11 items-center justify-center rounded-full text-white shadow-md transition hover:-translate-y-0.5 ${tone}`}
           >
             <Icon className="h-5 w-5" />
