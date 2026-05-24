@@ -275,7 +275,7 @@ function Index() {
 
         {/* ABOUT + LINKS */}
         <section className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+          <div id="about" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
             <div className="mb-3 flex items-center gap-2">
               <UserPlus className="h-4 w-4 text-brand-red" />
               <h2 className="text-sm font-bold tracking-widest text-foreground/90">ABOUT ME</h2>
@@ -314,7 +314,7 @@ function Index() {
         </section>
 
         {/* SKILLS */}
-        <section className="rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+        <section id="skills" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
           <div className="mb-4 flex items-center gap-2">
             <Code2 className="h-4 w-4 text-brand-red" />
             <h2 className="text-sm font-bold tracking-widest text-foreground/90">SKILLS</h2>
@@ -332,7 +332,7 @@ function Index() {
         </section>
 
         {/* CONNECT */}
-        <section className="rounded-2xl bg-card p-6 text-center shadow-[var(--shadow-card)]">
+        <section id="connect" className="scroll-mt-6 rounded-2xl bg-card p-6 text-center shadow-[var(--shadow-card)]">
           <p className="mb-4 text-xs font-bold tracking-[0.25em] text-muted-foreground">
             LET&apos;S CONNECT
           </p>
@@ -354,25 +354,8 @@ function Index() {
             ))}
           </div>
         </section>
-
-        {/* FOOTER QUOTE */}
-        <section className="relative overflow-hidden rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
-          <div
-            className="absolute right-0 top-0 h-full w-1/3"
-            style={{
-              background: "linear-gradient(135deg, transparent 0%, transparent 50%, var(--brand-red) 50%)",
-              opacity: 0.9,
-            }}
-            aria-hidden
-          />
-          <div className="relative flex items-center gap-3">
-            <Quote className="h-5 w-5 shrink-0 text-brand-red" />
-            <p className="font-mono text-sm italic text-foreground/90 sm:text-base">
-              Code. Learn. Build. Repeat.
-            </p>
-          </div>
-        </section>
       </div>
     </main>
   );
 }
+
