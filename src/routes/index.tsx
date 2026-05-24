@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { navSections as navSectionsList } from "@/components/business-card";
 import {
   Phone,
   Mail,
