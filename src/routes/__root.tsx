@@ -151,8 +151,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        <NavBar />
+      {/* NavBar renders both the fixed desktop sidebar and the mobile top bar */}
+      <NavBar />
+
+      {/* On desktop, offset content by the sidebar width (w-56 = 14rem) */}
+      <div className="flex min-h-screen flex-col lg:pl-56">
         <div className="flex-1">
           <Outlet />
         </div>

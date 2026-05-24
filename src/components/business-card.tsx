@@ -115,31 +115,34 @@ export function NavBar() {
   }
 
   return (
-    <nav
-      className="sticky top-0 z-50 w-full border-b border-white/10 bg-brand-navy-deep/95 backdrop-blur supports-[backdrop-filter]:bg-brand-navy-deep/80"
-      aria-label="Main navigation"
-    >
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4 md:px-8">
-        {/* Logo / Home link */}
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 font-mono text-sm font-bold text-brand-red transition hover:opacity-80"
-          aria-label="Home"
-        >
-          <span className="rounded-md border border-brand-red/60 px-2 py-0.5 text-xs">{"</>"}</span>
-          <span className="hidden text-foreground sm:inline">RatiaSB</span>
-        </Link>
+    <>
+      {/* ── DESKTOP: fixed left sidebar (lg+) ─────────────────── */}
+      <nav
+        className="hidden lg:flex fixed left-0 top-0 z-50 h-full w-56 flex-col border-r border-white/10 bg-brand-navy-deep/95 backdrop-blur supports-[backdrop-filter]:bg-brand-navy-deep/80"
+        aria-label="Main navigation"
+      >
+        {/* Logo */}
+        <div className="px-5 py-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 font-mono text-sm font-bold text-brand-red transition hover:opacity-80"
+            aria-label="Home"
+          >
+            <span className="rounded-md border border-brand-red/60 px-2 py-0.5 text-xs">{"</>"}</span>
+            <span className="text-foreground">RatiaSB</span>
+          </Link>
+        </div>
 
-        {/* Desktop nav links */}
-        <ul className="hidden items-center gap-1 sm:flex" role="list">
+        {/* Nav links */}
+        <ul className="flex flex-col gap-1 px-3" role="list">
           <li>
             <Link
               to="/"
-              className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-white/10 ${
-                currentPath === "/" ? "text-brand-red" : "text-foreground/75 hover:text-foreground"
+              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition hover:bg-white/10 ${
+                currentPath === "/" ? "bg-white/10 text-brand-red" : "text-foreground/75 hover:text-foreground"
               }`}
             >
-              <Home className="h-3.5 w-3.5" />
+              <Home className="h-4 w-4 shrink-0" />
               Home
             </Link>
           </li>
@@ -147,21 +150,40 @@ export function NavBar() {
             <li key={s.id}>
               <Link
                 to={s.to}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-white/10 ${
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition hover:bg-white/10 ${
                   currentPath === s.to
-                    ? "text-brand-red"
+                    ? "bg-white/10 text-brand-red"
                     : "text-foreground/75 hover:text-foreground"
                 }`}
               >
-                <s.icon className="h-3.5 w-3.5" />
+                <s.icon className="h-4 w-4 shrink-0" />
                 {s.label}
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* Mobile: hamburger dropdown */}
-        <div className="sm:hidden">
+        {/* Bottom brand tag */}
+        <div className="mt-auto px-5 py-6">
+          <span className="font-mono text-xs text-foreground/30">v1.0</span>
+        </div>
+      </nav>
+
+      {/* ── MOBILE / TABLET: top bar with hamburger (below lg) ── */}
+      <nav
+        className="lg:hidden sticky top-0 z-50 w-full border-b border-white/10 bg-brand-navy-deep/95 backdrop-blur supports-[backdrop-filter]:bg-brand-navy-deep/80"
+        aria-label="Main navigation"
+      >
+        <div className="flex h-14 items-center justify-between px-4 md:px-8">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 font-mono text-sm font-bold text-brand-red transition hover:opacity-80"
+            aria-label="Home"
+          >
+            <span className="rounded-md border border-brand-red/60 px-2 py-0.5 text-xs">{"</>"}</span>
+            <span className="text-foreground">RatiaSB</span>
+          </Link>
+
           <DropdownMenu open={mobileOpen} onOpenChange={setMobileOpen}>
             <DropdownMenuTrigger
               aria-label="Open navigation menu"
@@ -192,8 +214,8 @@ export function NavBar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
 
