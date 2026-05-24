@@ -44,7 +44,6 @@ function drawRoundRect(
 async function drawCard(
   canvas: HTMLCanvasElement,
   scale: number,
-  label: string,
 ) {
   const ctx = canvas.getContext("2d")!;
   const s = scale;
@@ -129,8 +128,7 @@ async function drawCard(
   ctx.stroke();
 
   // ── SCAN TO CONNECT button ───────────────────────────────────
-  const btnY = qrY + qrSize + 36;
-  const btnW = 260;
+  const btnY = qrY + qrSize + 36;  const btnW = 260;
   const btnH = 48;
   const btnX = (W - btnW) / 2;
 
@@ -143,11 +141,7 @@ async function drawCard(
   ctx.textAlign = "center";
   ctx.fillText("📱  SCAN TO CONNECT", W / 2, btnY + 31);
 
-  // ── Bottom label (RGB / CMYK) ────────────────────────────────
-  ctx.fillStyle = "rgba(255,255,255,0.25)";
-  ctx.font = `${12}px Inter, system-ui, sans-serif`;
-  ctx.textAlign = "center";
-  ctx.fillText(label, W / 2, H - 16);
+  // ── Bottom label (RGB / CMYK) — removed, clean card only ────
 }
 
 function QRCard({
@@ -172,8 +166,8 @@ function QRCard({
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    drawCard(canvasRef.current, scale, label).then(() => setReady(true));
-  }, [scale, label]);
+    drawCard(canvasRef.current, scale).then(() => setReady(true));
+  }, [scale]);
 
   function download() {
     if (!canvasRef.current) return;
