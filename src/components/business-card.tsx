@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Phone,
@@ -106,6 +107,12 @@ export function NavBar() {
   const { location } = useRouterState();
   const currentPath = location.pathname;
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  function handleNav(to: string) {
+    setMobileOpen(false);
+    navigate({ to });
+  }
 
   return (
     <nav
@@ -155,7 +162,7 @@ export function NavBar() {
 
         {/* Mobile: hamburger dropdown */}
         <div className="sm:hidden">
-          <DropdownMenu>
+          <DropdownMenu open={mobileOpen} onOpenChange={setMobileOpen}>
             <DropdownMenuTrigger
               aria-label="Open navigation menu"
               className="rounded-md p-2 text-foreground/80 transition hover:bg-white/10 hover:text-foreground"
@@ -166,7 +173,7 @@ export function NavBar() {
               <button
                 role="menuitem"
                 className={menuItemClass}
-                onClick={() => navigate({ to: "/" })}
+                onClick={() => handleNav("/")}
               >
                 <Home className="h-4 w-4 text-brand-red" />
                 Home
@@ -176,7 +183,7 @@ export function NavBar() {
                   key={s.id}
                   role="menuitem"
                   className={menuItemClass}
-                  onClick={() => navigate({ to: s.to })}
+                  onClick={() => handleNav(s.to)}
                 >
                   <s.icon className="h-4 w-4 text-brand-red" />
                   {s.label}
