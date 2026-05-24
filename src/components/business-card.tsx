@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Phone,
   Mail,
@@ -14,7 +14,7 @@ import {
   ChevronRight,
   Code2,
   Menu,
-  ArrowLeft,
+  Home,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -98,6 +98,90 @@ export function SectionMenu({
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+/* ===================== Global Navigation Bar ===================== */
+
+export function NavBar() {
+  const { location } = useRouterState();
+  const currentPath = location.pathname;
+
+  return (
+    <nav
+      className="sticky top-0 z-50 w-full border-b border-white/10 bg-brand-navy-deep/95 backdrop-blur supports-[backdrop-filter]:bg-brand-navy-deep/80"
+      aria-label="Main navigation"
+    >
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4 md:px-8">
+        {/* Logo / Home link */}
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 font-mono text-sm font-bold text-brand-red transition hover:opacity-80"
+          aria-label="Home"
+        >
+          <span className="rounded-md border border-brand-red/60 px-2 py-0.5 text-xs">{"</>"}</span>
+          <span className="hidden text-foreground sm:inline">RatiaSB</span>
+        </Link>
+
+        {/* Desktop nav links */}
+        <ul className="hidden items-center gap-1 sm:flex" role="list">
+          <li>
+            <Link
+              to="/"
+              className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-white/10 ${
+                currentPath === "/" ? "text-brand-red" : "text-foreground/75 hover:text-foreground"
+              }`}
+            >
+              <Home className="h-3.5 w-3.5" />
+              Home
+            </Link>
+          </li>
+          {navSections.map((s) => (
+            <li key={s.id}>
+              <Link
+                to={s.to}
+                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition hover:bg-white/10 ${
+                  currentPath === s.to
+                    ? "text-brand-red"
+                    : "text-foreground/75 hover:text-foreground"
+                }`}
+              >
+                <s.icon className="h-3.5 w-3.5" />
+                {s.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Mobile: hamburger dropdown */}
+        <div className="sm:hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              aria-label="Open navigation menu"
+              className="rounded-md p-2 text-foreground/80 transition hover:bg-white/10 hover:text-foreground"
+            >
+              <Menu className="h-5 w-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              <DropdownMenuItem asChild>
+                <Link to="/" className="flex w-full items-center gap-2">
+                  <Home className="h-4 w-4 text-brand-red" />
+                  Home
+                </Link>
+              </DropdownMenuItem>
+              {navSections.map((s) => (
+                <DropdownMenuItem key={s.id} asChild>
+                  <Link to={s.to} className="flex w-full items-center gap-2">
+                    <s.icon className="h-4 w-4 text-brand-red" />
+                    {s.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </nav>
   );
 }
 
@@ -220,17 +304,6 @@ export function SubPageLayout({
   return (
     <main className="min-h-screen bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
       <div className="mx-auto w-full max-w-3xl space-y-6">
-        <div className="flex items-center justify-between">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm font-semibold text-foreground/80 transition hover:text-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Link>
-          <CodeBracket />
-          <SectionMenu />
-        </div>
         <h1 className="text-3xl font-extrabold tracking-tight">{title}</h1>
         <div className="h-0.5 w-16 rounded bg-brand-red" />
         {children}

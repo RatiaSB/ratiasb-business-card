@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { NavBar } from "@/components/business-card";
 
 import appCss from "../styles.css?url";
 
@@ -150,6 +151,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <NavBar />
       <Outlet />
       <SiteFooter />
     </QueryClientProvider>
