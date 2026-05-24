@@ -189,9 +189,6 @@ function Index() {
           <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="flex items-start gap-6">
               <CodeBracket className="absolute left-6 top-6 sm:left-10 sm:top-10" />
-              <div className="absolute right-6 top-6 z-10 sm:right-10 sm:top-10">
-                <SectionMenu className="bg-brand-navy-deep/60 text-white backdrop-blur hover:bg-brand-navy-deep" />
-              </div>
 
               <div className="relative shrink-0 pt-10 sm:pt-12">
                 <div className="rounded-full p-1.5 ring-2 ring-brand-red shadow-[var(--shadow-red)]">
