@@ -284,7 +284,10 @@ function Index() {
         </section>
 
         {/* ABOUT + LINKS */}
+        {/* SECTIONS — desktop only (mobile/tablet uses dedicated routes) */}
+        <div className="hidden space-y-6 lg:block">
         <section className="grid gap-6 md:grid-cols-2">
+
           <div id="about" className="scroll-mt-6 rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
             <div className="mb-3 flex items-center gap-2">
               <UserPlus className="h-4 w-4 text-brand-red" />
