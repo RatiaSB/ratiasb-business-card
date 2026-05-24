@@ -162,3 +162,48 @@
     color: var(--color-foreground);
   }
 }
+
+/* ── Global tap / click feedback ───────────────────────────────────────────
+   Gives every interactive element a consistent pressed-state feel on both
+   touch and mouse. Uses scale + opacity so it works on any background color.
+   -webkit-tap-highlight-color removes the default grey flash on iOS/Android
+   and replaces it with our own controlled feedback.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* Remove the browser's default tap highlight on all elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pressed state: scale down slightly + dim — applies to every clickable */
+button:active,
+a:active,
+[role="button"]:active,
+[role="menuitem"]:active,
+[role="tab"]:active,
+[role="link"]:active {
+  transform: scale(0.96);
+  opacity: 0.75;
+  transition: transform 60ms ease, opacity 60ms ease;
+}
+
+/* Ensure the transition back to resting is smooth */
+button,
+a,
+[role="button"],
+[role="menuitem"],
+[role="tab"],
+[role="link"] {
+  transition: transform 150ms ease, opacity 150ms ease;
+  /* Prevent double-tap zoom on mobile for interactive elements */
+  touch-action: manipulation;
+}
+
+/* Cursor pointer on everything interactive */
+button:not(:disabled),
+a,
+[role="button"]:not([aria-disabled="true"]),
+[role="menuitem"],
+[role="tab"] {
+  cursor: pointer;
+}
