@@ -58,6 +58,45 @@ function CodeBracket({ className = "" }: { className?: string }) {
   );
 }
 
+function saveContact() {
+  const vcard = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "FN:Swatsi Bongani Ratia",
+    "N:Ratia;Swatsi Bongani;;;",
+    "TITLE:Software Developer",
+    "TEL;TYPE=CELL:+27812185608",
+    "EMAIL:swazibongani33@yahoo.com",
+    "URL:https://yourportfolio.com",
+    "END:VCARD",
+  ].join("\r\n");
+
+  const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Swatsi_Bongani_Ratia.vcf";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function handleAction(label: string) {
+  switch (label) {
+    case "Call":
+      window.location.href = "tel:+27812185608";
+      break;
+    case "Email":
+      window.location.href = "mailto:swazibongani33@yahoo.com";
+      break;
+    case "WhatsApp":
+      window.open("https://wa.me/27812185608", "_blank");
+      break;
+    case "Save Contact":
+      saveContact();
+      break;
+  }
+}
+
 function Index() {
   return (
     <main className="bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
@@ -101,6 +140,7 @@ function Index() {
             {actions.map((a) => (
               <button
                 key={a.label}
+                onClick={() => handleAction(a.label)}
                 className="flex w-full items-center gap-3 rounded-2xl bg-brand-navy-deep px-4 py-3 text-left text-foreground shadow-md transition hover:-translate-y-0.5 hover:bg-brand-navy-deep/80"
               >
                 <span
@@ -205,6 +245,7 @@ function Index() {
           {actions.map((a) => (
             <button
               key={a.label}
+              onClick={() => handleAction(a.label)}
               className="group flex items-center gap-3 rounded-2xl bg-card p-4 text-left shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:bg-secondary"
             >
               <span
