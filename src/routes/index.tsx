@@ -15,54 +15,8 @@ import {
   QrCode,
   Code2,
   Share2,
-  Menu,
 } from "lucide-react";
 import profileImg from "@/assets/Profile.jpeg";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const navSections = [
-  { id: "about", label: "About Me", icon: UserPlus },
-  { id: "my-links", label: "My Links", icon: LinkIcon },
-  { id: "skills", label: "Skills", icon: Code2 },
-  { id: "connect", label: "Let's Connect", icon: Mail },
-];
-
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-const menuItemClass =
-  "relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground";
-
-function SectionMenu({ className = "" }: { className?: string }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        aria-label="Open menu"
-        className={`rounded-md p-2 text-foreground/80 transition hover:text-foreground ${className}`}
-      >
-        <Menu className="h-6 w-6" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
-        {navSections.map((s) => (
-          <button
-            key={s.id}
-            role="menuitem"
-            className={menuItemClass}
-            onClick={() => scrollToSection(s.id)}
-          >
-            <s.icon className="h-4 w-4 text-brand-red" />
-            {s.label}
-          </button>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -122,12 +76,6 @@ function Index() {
             }}
             aria-hidden
           />
-
-          {/* top bar */}
-          <div className="relative flex items-center justify-between">
-            <CodeBracket />
-            <SectionMenu />
-          </div>
 
 
           {/* profile */}
