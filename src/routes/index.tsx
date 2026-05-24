@@ -119,14 +119,9 @@ function Index() {
           {/* top bar */}
           <div className="relative flex items-center justify-between">
             <CodeBracket />
-            <button
-              type="button"
-              aria-label="Open menu"
-              className="rounded-md p-2 text-foreground/80 transition hover:text-foreground"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
+            <SectionMenu />
           </div>
+
 
           {/* profile */}
           <div className="relative mt-4 flex flex-col items-center text-center">
