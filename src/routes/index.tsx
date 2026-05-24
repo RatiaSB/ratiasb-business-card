@@ -158,15 +158,21 @@ function Index() {
             ))}
           </div>
 
-          {/* View My Links */}
-          <a
-            href="#my-links"
-            className="relative mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-red px-4 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5"
-          >
-            <LinkIcon className="h-4 w-4" />
-            View My Links
-          </a>
+          {/* Section navigation (mobile/tablet) */}
+          <nav className="relative mt-5 grid grid-cols-2 gap-2">
+            {navSectionsList.map((s) => (
+              <Link
+                key={s.to}
+                to={s.to}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-brand-red px-3 py-3 text-xs font-bold uppercase tracking-wide text-white shadow-[var(--shadow-red)] transition hover:-translate-y-0.5"
+              >
+                <s.icon className="h-4 w-4" />
+                {s.label}
+              </Link>
+            ))}
+          </nav>
         </section>
+
 
         {/* ============================================================
             DESKTOP HERO (unchanged from before — lg and up)
