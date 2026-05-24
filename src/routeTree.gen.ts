@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as QrRouteImport } from './routes/qr'
 import { Route as LinksRouteImport } from './routes/links'
 import { Route as ConnectRouteImport } from './routes/connect'
 import { Route as AboutRouteImport } from './routes/about'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const SkillsRoute = SkillsRouteImport.update({
   id: '/skills',
   path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QrRoute = QrRouteImport.update({
+  id: '/qr',
+  path: '/qr',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LinksRoute = LinksRouteImport.update({
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/connect': typeof ConnectRoute
   '/links': typeof LinksRoute
+  '/qr': typeof QrRoute
   '/skills': typeof SkillsRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/connect': typeof ConnectRoute
   '/links': typeof LinksRoute
+  '/qr': typeof QrRoute
   '/skills': typeof SkillsRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,15 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/connect': typeof ConnectRoute
   '/links': typeof LinksRoute
+  '/qr': typeof QrRoute
   '/skills': typeof SkillsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/connect' | '/links' | '/skills'
+  fullPaths: '/' | '/about' | '/connect' | '/links' | '/qr' | '/skills'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/connect' | '/links' | '/skills'
-  id: '__root__' | '/' | '/about' | '/connect' | '/links' | '/skills'
+  to: '/' | '/about' | '/connect' | '/links' | '/qr' | '/skills'
+  id: '__root__' | '/' | '/about' | '/connect' | '/links' | '/qr' | '/skills'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +85,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ConnectRoute: typeof ConnectRoute
   LinksRoute: typeof LinksRoute
+  QrRoute: typeof QrRoute
   SkillsRoute: typeof SkillsRoute
 }
 
@@ -86,6 +96,13 @@ declare module '@tanstack/react-router' {
       path: '/skills'
       fullPath: '/skills'
       preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qr': {
+      id: '/qr'
+      path: '/qr'
+      fullPath: '/qr'
+      preLoaderRoute: typeof QrRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/links': {
@@ -124,6 +141,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ConnectRoute: ConnectRoute,
   LinksRoute: LinksRoute,
+  QrRoute: QrRoute,
   SkillsRoute: SkillsRoute,
 }
 export const routeTree = rootRouteImport

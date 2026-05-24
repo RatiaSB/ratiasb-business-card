@@ -16,6 +16,7 @@ import {
   Code2,
   Menu,
   Home,
+  QrCode,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -32,6 +33,7 @@ export const navSections = [
   { to: "/links", id: "my-links", label: "My Links", icon: LinkIcon },
   { to: "/skills", id: "skills", label: "Skills", icon: Code2 },
   { to: "/connect", id: "connect", label: "Let's Connect", icon: Mail },
+  { to: "/qr", id: "qr", label: "QR Code", icon: QrCode },
 ] as const;
 
 export const links = [
