@@ -100,7 +100,7 @@ function CodeBracket({ className = "" }: { className?: string }) {
 
 function Index() {
   return (
-    <main className="min-h-screen bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
+    <main className="bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
       <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* ============================================================
             MOBILE / TABLET HERO (matches reference mock)

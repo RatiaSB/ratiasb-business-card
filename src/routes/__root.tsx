@@ -151,9 +151,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NavBar />
-      <Outlet />
-      <SiteFooter />
+      <div className="flex min-h-screen flex-col">
+        <NavBar />
+        <div className="flex-1">
+          <Outlet />
+        </div>
+        <SiteFooter />
+      </div>
     </QueryClientProvider>
   );
 }

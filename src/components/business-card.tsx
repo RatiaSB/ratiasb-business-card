@@ -302,7 +302,7 @@ export function SubPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
+    <main className="bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
       <div className="mx-auto w-full max-w-3xl space-y-6">
         <h1 className="text-3xl font-extrabold tracking-tight">{title}</h1>
         <div className="h-0.5 w-16 rounded bg-brand-red" />
