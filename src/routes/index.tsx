@@ -14,11 +14,48 @@ import {
   ChevronRight,
   QrCode,
   Code2,
-  Quote,
   Share2,
   Menu,
 } from "lucide-react";
 import profileImg from "@/assets/Profile.jpeg";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const navSections = [
+  { id: "about", label: "About Me", icon: UserPlus },
+  { id: "my-links", label: "My Links", icon: LinkIcon },
+  { id: "skills", label: "Skills", icon: Code2 },
+  { id: "connect", label: "Let's Connect", icon: Mail },
+];
+
+function scrollToSection(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function SectionMenu({ className = "" }: { className?: string }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label="Open menu"
+        className={`rounded-md p-2 text-foreground/80 transition hover:text-foreground ${className}`}
+      >
+        <Menu className="h-6 w-6" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        {navSections.map((s) => (
+          <DropdownMenuItem key={s.id} onSelect={() => scrollToSection(s.id)} className="gap-2">
+            <s.icon className="h-4 w-4 text-brand-red" />
+            {s.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export const Route = createFileRoute("/")({
   component: Index,
