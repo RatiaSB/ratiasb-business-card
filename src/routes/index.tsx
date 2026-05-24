@@ -71,13 +71,10 @@ function saveContact() {
     "END:VCARD",
   ].join("\r\n");
 
-  const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Swatsi_Bongani_Ratia.vcf";
-  a.click();
-  URL.revokeObjectURL(url);
+  // Use a data: URI so the OS opens the vCard directly in the Contacts app
+  // without saving a file to Downloads. Falls back to blob download on desktop.
+  const dataUri = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcard);
+  window.open(dataUri, "_blank");
 }
 
 function handleAction(label: string) {
