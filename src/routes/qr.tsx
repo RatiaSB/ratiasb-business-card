@@ -24,15 +24,6 @@ const NAVY_DEEP = "#1a1f2e";
 const NAVY     = "#1e2438";
 const RED      = "#c0392b";
 
-// Social icon colours
-const SOCIALS = [
-  { label: "in",  bg: "#0077B5" },
-  { label: "gh",  bg: "#24292e", svg: "github" },
-  { label: "tw",  bg: "#1DA1F2" },
-  { label: "ig",  bg: "instagram" },
-  { label: "✉",  bg: RED },
-];
-
 function drawRoundRect(
   ctx: CanvasRenderingContext2D,
   x: number, y: number, w: number, h: number, r: number,
@@ -151,42 +142,6 @@ async function drawCard(
   ctx.font = `bold ${15}px Inter, system-ui, sans-serif`;
   ctx.textAlign = "center";
   ctx.fillText("📱  SCAN TO CONNECT", W / 2, btnY + 31);
-
-  // ── Let's Connect label ──────────────────────────────────────
-  const socialY = btnY + btnH + 44;
-  ctx.fillStyle = "rgba(255,255,255,0.6)";
-  ctx.font = `${15}px Inter, system-ui, sans-serif`;
-  ctx.fillText("Let's Connect", W / 2, socialY - 16);
-
-  // ── Social icon circles ──────────────────────────────────────
-  const iconR = 24;
-  const totalW = SOCIALS.length * (iconR * 2) + (SOCIALS.length - 1) * 12;
-  let ix = (W - totalW) / 2 + iconR;
-
-  for (const s of SOCIALS) {
-    // Circle
-    ctx.beginPath();
-    ctx.arc(ix, socialY + 10, iconR, 0, Math.PI * 2);
-
-    if (s.bg === "instagram") {
-      const grad = ctx.createRadialGradient(ix - 8, socialY + 2, 2, ix, socialY + 10, iconR);
-      grad.addColorStop(0, "#f9ce34");
-      grad.addColorStop(0.4, "#ee2a7b");
-      grad.addColorStop(1, "#6228d7");
-      ctx.fillStyle = grad;
-    } else {
-      ctx.fillStyle = s.bg;
-    }
-    ctx.fill();
-
-    // Label text
-    ctx.fillStyle = "#ffffff";
-    ctx.font = `bold ${13}px Inter, system-ui, sans-serif`;
-    ctx.textAlign = "center";
-    ctx.fillText(s.label, ix, socialY + 15);
-
-    ix += iconR * 2 + 12;
-  }
 
   // ── Bottom label (RGB / CMYK) ────────────────────────────────
   ctx.fillStyle = "rgba(255,255,255,0.25)";
