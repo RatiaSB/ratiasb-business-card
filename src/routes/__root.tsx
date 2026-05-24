@@ -112,12 +112,46 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SiteFooter() {
+  return (
+    <footer className="bg-brand-navy-deep px-4 pb-8 md:px-8">
+      <div className="mx-auto w-full max-w-5xl">
+        <div className="relative overflow-hidden rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+          <div
+            className="absolute right-0 top-0 h-full w-1/3"
+            style={{
+              background:
+                "linear-gradient(135deg, transparent 0%, transparent 50%, var(--brand-red) 50%)",
+              opacity: 0.9,
+            }}
+            aria-hidden
+          />
+          <div className="relative flex items-center gap-3">
+            <svg
+              className="h-5 w-5 shrink-0 text-brand-red"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path d="M7.17 6A5.17 5.17 0 002 11.17V18h6.83v-6.83H5.5A1.67 1.67 0 017.17 9.5V6zm9 0a5.17 5.17 0 00-5.17 5.17V18h6.83v-6.83H14.5a1.67 1.67 0 011.67-1.67V6z" />
+            </svg>
+            <p className="font-mono text-sm italic text-foreground/90 sm:text-base">
+              Code. Learn. Build. Repeat.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <SiteFooter />
     </QueryClientProvider>
   );
 }
