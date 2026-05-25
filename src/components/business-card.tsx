@@ -175,7 +175,7 @@ export function NavBar() {
 
       {/* ── MOBILE / TABLET: top bar with hamburger (below lg) ── */}
       <nav
-        className="lg:hidden sticky top-0 z-50 w-full border-b border-white/10 bg-brand-navy-deep/95 backdrop-blur supports-[backdrop-filter]:bg-brand-navy-deep/80"
+        className="lg:hidden sticky top-0 z-50 w-full border-b border-white/10 bg-brand-navy-deep/80 backdrop-blur supports-[backdrop-filter]:bg-brand-navy-deep/60"
         aria-label="Main navigation"
       >
         <div className="flex h-14 items-center justify-between px-4 md:px-8">
@@ -188,37 +188,125 @@ export function NavBar() {
             <span className="text-foreground">RatiaSB</span>
           </Link>
 
-          <DropdownMenu open={mobileOpen} onOpenChange={setMobileOpen}>
-            <DropdownMenuTrigger
-              aria-label="Open navigation menu"
-              className="rounded-md p-2 text-foreground/80 transition hover:bg-white/10 hover:text-foreground"
-            >
-              <Menu className="h-5 w-5" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              <button
-                role="menuitem"
-                className={menuItemClass}
-                onClick={() => handleNav("/")}
-              >
-                <Home className="h-4 w-4 text-brand-red" />
-                Home
-              </button>
-              {navSections.map((s) => (
-                <button
-                  key={s.id}
-                  role="menuitem"
-                  className={menuItemClass}
-                  onClick={() => handleNav(s.to)}
-                >
-                  <s.icon className="h-4 w-4 text-brand-red" />
-                  {s.label}
-                </button>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <button
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen(true)}
+            className="rounded-md p-2 text-foreground/80 transition hover:bg-white/10 hover:text-foreground active:scale-95"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
         </div>
       </nav>
+
+      {/* ── MOBILE DRAWER (Framer Motion) ── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <div className="lg:hidden fixed inset-0 z-[60]">
+            {/* Overlay */}
+            <motion.button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setMobileOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="absolute inset-0 h-full w-full bg-black/50 backdrop-blur-md"
+            />
+
+            {/* Drawer */}
+            <motion.aside
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 34 }}
+              className="absolute right-0 top-0 flex h-full w-[82%] max-w-sm flex-col border-l border-white/10 bg-brand-navy-deep/70 shadow-2xl backdrop-blur-2xl supports-[backdrop-filter]:bg-brand-navy-deep/50"
+            >
+              {/* Subtle gradient sheen */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-brand-red/10"
+              />
+
+              <div className="relative flex items-center justify-between border-b border-white/10 px-5 py-4">
+                <span className="inline-flex items-center gap-2 font-mono text-sm font-bold">
+                  <span className="rounded-md border border-brand-red/60 px-2 py-0.5 text-xs text-brand-red">
+                    {"</>"}
+                  </span>
+                  <span className="text-foreground">RatiaSB</span>
+                </span>
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-full p-2 text-foreground/80 transition hover:bg-white/10 hover:text-foreground active:scale-95"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <motion.ul
+                role="list"
+                className="relative flex-1 space-y-1 overflow-y-auto px-3 py-4"
+                initial="hidden"
+                animate="show"
+                variants={{
+                  hidden: {},
+                  show: { transition: { staggerChildren: 0.04, delayChildren: 0.08 } },
+                }}
+              >
+                {[{ to: "/", id: "home", label: "Home", icon: Home }, ...navSections].map((s) => {
+                  const active = currentPath === s.to;
+                  return (
+                    <motion.li
+                      key={s.id}
+                      variants={{
+                        hidden: { opacity: 0, x: 24 },
+                        show: { opacity: 1, x: 0 },
+                      }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                    >
+                      <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => handleNav(s.to)}
+                        className={cn(
+                          "group flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition",
+                          active
+                            ? "bg-white/10 text-brand-red ring-1 ring-brand-red/40"
+                            : "text-foreground/85 hover:bg-white/10 hover:text-foreground",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "flex h-8 w-8 items-center justify-center rounded-lg transition",
+                            active
+                              ? "bg-brand-red/20 text-brand-red"
+                              : "bg-white/5 text-foreground/70 group-hover:text-brand-red",
+                          )}
+                        >
+                          <s.icon className="h-4 w-4" />
+                        </span>
+                        <span className="flex-1 text-left">{s.label}</span>
+                        <ChevronRight className="h-4 w-4 opacity-40 transition group-hover:translate-x-0.5 group-hover:opacity-80" />
+                      </button>
+                    </motion.li>
+                  );
+                })}
+              </motion.ul>
+
+              <div className="relative border-t border-white/10 px-5 py-4">
+                <p className="font-mono text-xs text-foreground/40">v1.0 — RatiaSB</p>
+              </div>
+            </motion.aside>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
