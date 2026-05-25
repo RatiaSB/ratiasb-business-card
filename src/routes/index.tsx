@@ -96,15 +96,15 @@ function handleAction(label: string) {
 
 function Index() {
   return (
-    <main className="bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
-      <div className="mx-auto w-full max-w-5xl space-y-6">
+    <main className="h-full bg-brand-navy-deep px-3 py-3 font-sans text-foreground md:px-6 md:py-4 lg:h-auto lg:px-8 lg:py-12">
+      <div className="mx-auto flex h-full w-full max-w-5xl flex-col gap-3 lg:h-auto lg:gap-6">
         {/* ============================================================
             MOBILE / TABLET HERO (matches reference mock)
         ============================================================ */}
-        <section className="relative overflow-hidden rounded-3xl bg-card p-5 shadow-[var(--shadow-card)] lg:hidden">
+        <section className="relative flex flex-1 flex-col overflow-hidden rounded-2xl bg-card p-3 shadow-[var(--shadow-card)] sm:p-4 lg:hidden">
           {/* red triangle accent bottom-right */}
           <div
-            className="pointer-events-none absolute bottom-0 right-0 h-32 w-32"
+            className="pointer-events-none absolute bottom-0 right-0 h-24 w-24"
             style={{
               background:
                 "linear-gradient(135deg, transparent 0%, transparent 50%, var(--brand-red) 50%)",
@@ -114,33 +114,33 @@ function Index() {
           />
 
           {/* profile */}
-          <div className="relative mt-2 flex flex-col items-center text-center">
+          <div className="relative flex flex-col items-center text-center">
             <div className="rounded-full p-1 ring-2 ring-brand-red shadow-[var(--shadow-red)]">
               <img
                 src={profileImg}
                 alt="Portrait of Your Name"
-                width={112}
-                height={112}
-                className="h-24 w-24 rounded-full object-cover"
+                width={96}
+                height={96}
+                className="h-16 w-16 rounded-full object-cover sm:h-20 sm:w-20 md:h-24 md:w-24"
               />
             </div>
-            <h1 className="mt-3 text-2xl font-extrabold tracking-tight">Swatsi Bongani Ratia</h1>
-            <p className="mt-0.5 text-sm text-foreground/80">
-              Software Developer
-            </p>
-            <div className="mt-2 h-0.5 w-12 rounded bg-brand-red" />
+            <h1 className="mt-2 text-lg font-extrabold tracking-tight sm:text-xl md:text-2xl">
+              Swatsi Bongani Ratia
+            </h1>
+            <p className="text-xs text-foreground/80 sm:text-sm">Software Developer</p>
+            <div className="mt-1 h-0.5 w-10 rounded bg-brand-red" />
           </div>
 
           {/* stacked action buttons */}
-          <div className="relative mt-4 space-y-2">
+          <div className="relative mt-3 flex flex-1 flex-col justify-center gap-2">
             {actions.map((a) => (
               <button
                 key={a.label}
                 onClick={() => handleAction(a.label)}
-                className="flex w-full items-center gap-3 rounded-2xl bg-brand-navy-deep px-4 py-3 text-left text-foreground shadow-md transition hover:-translate-y-0.5 hover:bg-brand-navy-deep/80"
+                className="flex w-full items-center gap-3 rounded-xl bg-brand-navy-deep px-3 py-2 text-left text-foreground shadow-md transition hover:-translate-y-0.5 hover:bg-brand-navy-deep/80 sm:py-2.5"
               >
                 <span
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${a.tone} text-white shadow`}
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${a.tone} text-white shadow sm:h-9 sm:w-9`}
                 >
                   <a.icon className="h-4 w-4" />
                 </span>
@@ -149,6 +149,8 @@ function Index() {
             ))}
           </div>
         </section>
+
+
 
 
         {/* ============================================================
