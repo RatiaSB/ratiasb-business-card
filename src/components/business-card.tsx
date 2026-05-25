@@ -432,11 +432,13 @@ export function SubPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="bg-brand-navy-deep px-4 py-8 font-sans text-foreground md:px-8 md:py-12">
-      <div className="mx-auto w-full max-w-3xl space-y-6">
-        <h1 className="text-3xl font-extrabold tracking-tight">{title}</h1>
-        <div className="h-0.5 w-16 rounded bg-brand-red" />
-        {children}
+    <main className="h-full overflow-hidden bg-brand-navy-deep px-3 py-3 font-sans text-foreground md:px-6 md:py-4 lg:h-auto lg:overflow-visible lg:px-8 lg:py-12">
+      <div className="mx-auto flex h-full w-full max-w-3xl flex-col gap-3 lg:h-auto lg:gap-6">
+        <div className="shrink-0">
+          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h1>
+          <div className="mt-1 h-0.5 w-12 rounded bg-brand-red" />
+        </div>
+        <div className="flex min-h-0 flex-1 flex-col lg:flex-none">{children}</div>
       </div>
     </main>
   );
