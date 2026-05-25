@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Phone,
   Mail,
@@ -15,6 +16,7 @@ import {
   ChevronRight,
   Code2,
   Menu,
+  X,
   Home,
   QrCode,
 } from "lucide-react";
