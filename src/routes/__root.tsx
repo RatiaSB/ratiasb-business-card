@@ -115,9 +115,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function SiteFooter() {
   return (
-    <footer className="bg-brand-navy-deep px-4 pb-8 md:px-8">
+    <footer className="shrink-0 bg-brand-navy-deep px-4 pb-3 pt-2 md:px-8 lg:pb-8 lg:pt-0">
       <div className="mx-auto w-full max-w-5xl">
-        <div className="relative overflow-hidden rounded-2xl bg-card p-6 shadow-[var(--shadow-card)]">
+        <div className="relative overflow-hidden rounded-xl bg-card p-3 shadow-[var(--shadow-card)] lg:rounded-2xl lg:p-6">
           <div
             className="absolute right-0 top-0 h-full w-1/3"
             style={{
@@ -127,16 +127,16 @@ function SiteFooter() {
             }}
             aria-hidden
           />
-          <div className="relative flex items-center gap-3">
+          <div className="relative flex items-center gap-2 lg:gap-3">
             <svg
-              className="h-5 w-5 shrink-0 text-brand-red"
+              className="h-4 w-4 shrink-0 text-brand-red lg:h-5 lg:w-5"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden
             >
               <path d="M7.17 6A5.17 5.17 0 002 11.17V18h6.83v-6.83H5.5A1.67 1.67 0 017.17 9.5V6zm9 0a5.17 5.17 0 00-5.17 5.17V18h6.83v-6.83H14.5a1.67 1.67 0 011.67-1.67V6z" />
             </svg>
-            <p className="font-mono text-sm italic text-foreground/90 sm:text-base">
+            <p className="font-mono text-xs italic text-foreground/90 sm:text-sm lg:text-base">
               Code. Learn. Build. Repeat.
             </p>
           </div>
@@ -151,12 +151,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* NavBar renders both the fixed desktop sidebar and the mobile top bar */}
       <NavBar />
 
-      {/* On desktop, offset content by the sidebar width (w-56 = 14rem) */}
-      <div className="flex min-h-screen flex-col lg:pl-56">
-        <div className="flex-1">
+      {/* Mobile/tablet: lock to viewport so nothing scrolls. Desktop: normal flow. */}
+      <div className="flex h-[100dvh] flex-col overflow-hidden lg:h-auto lg:min-h-screen lg:overflow-visible lg:pl-56">
+        <div className="flex-1 overflow-hidden lg:overflow-visible">
           <Outlet />
         </div>
         <SiteFooter />
