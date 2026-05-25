@@ -101,10 +101,10 @@ function Index() {
         {/* ============================================================
             MOBILE / TABLET HERO (matches reference mock)
         ============================================================ */}
-        <section className="relative overflow-hidden rounded-3xl bg-card p-6 shadow-[var(--shadow-card)] lg:hidden">
+        <section className="relative overflow-hidden rounded-3xl bg-card p-5 shadow-[var(--shadow-card)] lg:hidden">
           {/* red triangle accent bottom-right */}
           <div
-            className="pointer-events-none absolute bottom-0 right-0 h-40 w-40"
+            className="pointer-events-none absolute bottom-0 right-0 h-32 w-32"
             style={{
               background:
                 "linear-gradient(135deg, transparent 0%, transparent 50%, var(--brand-red) 50%)",
@@ -113,27 +113,26 @@ function Index() {
             aria-hidden
           />
 
-
           {/* profile */}
-          <div className="relative mt-4 flex flex-col items-center text-center">
-            <div className="rounded-full p-1.5 ring-2 ring-brand-red shadow-[var(--shadow-red)]">
+          <div className="relative mt-2 flex flex-col items-center text-center">
+            <div className="rounded-full p-1 ring-2 ring-brand-red shadow-[var(--shadow-red)]">
               <img
                 src={profileImg}
                 alt="Portrait of Your Name"
-                width={140}
-                height={140}
-                className="h-32 w-32 rounded-full object-cover"
+                width={112}
+                height={112}
+                className="h-24 w-24 rounded-full object-cover"
               />
             </div>
-            <h1 className="mt-5 text-3xl font-extrabold tracking-tight">Swatsi Bongani Ratia</h1>
-            <p className="mt-1 text-sm text-foreground/80">
+            <h1 className="mt-3 text-2xl font-extrabold tracking-tight">Swatsi Bongani Ratia</h1>
+            <p className="mt-0.5 text-sm text-foreground/80">
               Software Developer
             </p>
-            <div className="mt-3 h-0.5 w-16 rounded bg-brand-red" />
+            <div className="mt-2 h-0.5 w-12 rounded bg-brand-red" />
           </div>
 
           {/* stacked action buttons */}
-          <div className="relative mt-6 space-y-3">
+          <div className="relative mt-4 space-y-2">
             {actions.map((a) => (
               <button
                 key={a.label}
