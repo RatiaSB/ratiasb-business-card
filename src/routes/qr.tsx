@@ -5,10 +5,9 @@ import {
   Smartphone,
   Printer,
   Download,
-  WifiOff,
-  Globe,
   CheckCircle2,
   Share2,
+  Wifi,
 } from "lucide-react";
 
 import profileImg from "@/assets/Profile.jpeg";
@@ -17,23 +16,23 @@ export const Route = createFileRoute("/qr")({
   component: QRPage,
   head: () => ({
     meta: [
-      { title: "QR Code Cards — Swatsi Bongani Ratia" },
+      { title: "Hybrid QR Cards — Swatsi Bongani Ratia" },
       {
         name: "description",
         content:
-          "Digital QR business card for online and offline networking.",
+          "Hybrid digital business QR cards for online and offline networking.",
       },
     ],
   }),
 });
 
 /* =========================================================
-   CONFIG
+   HYBRID VCARD QR
 ========================================================= */
 
 const WEBSITE_URL = "https://ratiasb.lovable.app";
 
-const VCARD = `BEGIN:VCARD
+const HYBRID_QR = `BEGIN:VCARD
 VERSION:3.0
 FN:Swatsi Bongani Ratia
 ORG:RatiaSB
@@ -41,7 +40,12 @@ TITLE:Software Developer
 TEL:+27812185608
 EMAIL:swazibongani33@yahoo.com
 URL:${WEBSITE_URL}
+NOTE:Save contact instantly and open digital profile
 END:VCARD`;
+
+/* =========================================================
+   CANVAS SIZE
+========================================================= */
 
 const W = 540;
 const H = 860;
@@ -50,8 +54,8 @@ const H = 860;
    COLORS
 ========================================================= */
 
-const NAVY_DEEP = "#111827";
-const NAVY = "#1f2937";
+const NAVY_DEEP = "#0f172a";
+const NAVY = "#111827";
 const RED = "#c0392b";
 const WHITE = "#ffffff";
 
@@ -68,32 +72,35 @@ function drawRoundRect(
   r: number,
 ) {
   ctx.beginPath();
+
   ctx.moveTo(x + r, y);
   ctx.lineTo(x + w - r, y);
   ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+
   ctx.lineTo(x + w, y + h - r);
   ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+
   ctx.lineTo(x + r, y + h);
   ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+
   ctx.lineTo(x, y + r);
   ctx.quadraticCurveTo(x, y, x + r, y);
+
   ctx.closePath();
 }
 
 /* =========================================================
-   MAIN DRAW FUNCTION
+   DRAW CARD
 ========================================================= */
 
 async function drawCard({
   canvas,
-  data,
-  mode,
   scale,
+  printMode,
 }: {
   canvas: HTMLCanvasElement;
-  data: string;
-  mode: "online" | "offline";
   scale: number;
+  printMode: boolean;
 }) {
   const ctx = canvas.getContext("2d")!;
 
@@ -117,13 +124,23 @@ async function drawCard({
   ctx.fill();
 
   /* =========================================================
+     GLASS OVERLAY
+  ========================================================= */
+
+  ctx.fillStyle = "rgba(255,255,255,0.03)";
+  drawRoundRect(ctx, 12, 12, W - 24, H - 24, 28);
+  ctx.fill();
+
+  /* =========================================================
      RED ACCENT
   ========================================================= */
 
   ctx.beginPath();
+
   ctx.moveTo(W, 0);
   ctx.lineTo(W, 180);
   ctx.lineTo(W - 180, 0);
+
   ctx.closePath();
 
   ctx.fillStyle = RED;
@@ -140,10 +157,10 @@ async function drawCard({
 
   ctx.fillText("Swatsi Bongani Ratia", W / 2, 70);
 
-  ctx.fillStyle = "rgba(255,255,255,0.75)";
+  ctx.fillStyle = "rgba(255,255,255,0.72)";
   ctx.font = "18px Inter";
 
-  ctx.fillText("Software Developer", W / 2, 100);
+  ctx.fillText("Software Developer", W / 2, 102);
 
   /* =========================================================
      PROFILE IMAGE
@@ -151,7 +168,7 @@ async function drawCard({
 
   const avatarSize = 92;
   const avatarX = W / 2 - avatarSize / 2;
-  const avatarY = 130;
+  const avatarY = 135;
 
   const img = new Image();
   img.src = profileImg;
@@ -176,25 +193,28 @@ async function drawCard({
 
   ctx.strokeStyle = RED;
   ctx.lineWidth = 4;
-
   ctx.stroke();
 
   /* =========================================================
-     QR
+     QR CONTAINER
   ========================================================= */
 
   const qrSize = 290;
   const qrX = (W - qrSize) / 2;
-  const qrY = 260;
+  const qrY = 270;
 
-  drawRoundRect(ctx, qrX - 14, qrY - 14, qrSize + 28, qrSize + 28, 24);
+  drawRoundRect(ctx, qrX - 16, qrY - 16, qrSize + 32, qrSize + 32, 24);
 
   ctx.fillStyle = WHITE;
   ctx.fill();
 
+  /* =========================================================
+     QR CODE
+  ========================================================= */
+
   const qrCanvas = document.createElement("canvas");
 
-  await QRCode.toCanvas(qrCanvas, data, {
+  await QRCode.toCanvas(qrCanvas, HYBRID_QR, {
     width: qrSize,
     margin: 3,
     errorCorrectionLevel: "H",
@@ -207,12 +227,49 @@ async function drawCard({
   ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
 
   /* =========================================================
-     LABEL
+     CENTER LOGO
   ========================================================= */
 
-  const labelY = qrY + qrSize + 45;
+  const logoR = 34;
+  const logoX = W / 2;
+  const logoY = qrY + qrSize / 2;
 
-  drawRoundRect(ctx, 110, labelY, 320, 50, 25);
+  ctx.beginPath();
+  ctx.arc(logoX, logoY, logoR + 4, 0, Math.PI * 2);
+
+  ctx.fillStyle = RED;
+  ctx.fill();
+
+  ctx.save();
+
+  ctx.beginPath();
+  ctx.arc(logoX, logoY, logoR, 0, Math.PI * 2);
+  ctx.clip();
+
+  ctx.drawImage(
+    img,
+    logoX - logoR,
+    logoY - logoR,
+    logoR * 2,
+    logoR * 2,
+  );
+
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.arc(logoX, logoY, logoR + 4, 0, Math.PI * 2);
+
+  ctx.strokeStyle = WHITE;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  /* =========================================================
+     CTA BUTTON
+  ========================================================= */
+
+  const btnY = qrY + qrSize + 42;
+
+  drawRoundRect(ctx, 110, btnY, 320, 50, 25);
 
   ctx.fillStyle = RED;
   ctx.fill();
@@ -220,13 +277,7 @@ async function drawCard({
   ctx.fillStyle = WHITE;
   ctx.font = "bold 15px Inter";
 
-  ctx.fillText(
-    mode === "online"
-      ? "SCAN TO OPEN DIGITAL CARD"
-      : "SCAN TO SAVE CONTACT",
-    W / 2,
-    labelY + 31,
-  );
+  ctx.fillText("SCAN TO SAVE & CONNECT", W / 2, btnY + 31);
 
   /* =========================================================
      SHORT URL
@@ -235,7 +286,7 @@ async function drawCard({
   ctx.fillStyle = "rgba(255,255,255,0.7)";
   ctx.font = "16px Inter";
 
-  ctx.fillText("ratiasb.lovable.app", W / 2, labelY + 90);
+  ctx.fillText("ratiasb.lovable.app", W / 2, btnY + 90);
 
   /* =========================================================
      FEATURES
@@ -243,64 +294,57 @@ async function drawCard({
 
   ctx.textAlign = "left";
 
-  const features =
-    mode === "online"
-      ? [
-          "• Open responsive digital profile",
-          "• Works on mobile, tablet & desktop",
-          "• Access social links instantly",
-        ]
-      : [
-          "• Save contact without internet",
-          "• Works offline",
-          "• Quick networking access",
-        ];
+  const features = [
+    "• Save contact instantly",
+    "• Open digital profile",
+    "• Works online & offline",
+  ];
 
   ctx.font = "15px Inter";
   ctx.fillStyle = "rgba(255,255,255,0.82)";
 
   features.forEach((feature, i) => {
-    ctx.fillText(feature, 90, 720 + i * 30);
+    ctx.fillText(feature, 90, 730 + i * 30);
   });
 
   /* =========================================================
-     FOOTER
+     FOOTER LABEL
   ========================================================= */
 
   ctx.textAlign = "center";
 
-  ctx.fillStyle = "rgba(255,255,255,0.45)";
+  ctx.fillStyle = "rgba(255,255,255,0.42)";
   ctx.font = "13px Inter";
 
   ctx.fillText(
-    mode === "online"
-      ? "DIGITAL NETWORKING CARD"
-      : "OFFLINE CONTACT CARD",
+    printMode
+      ? "PRINT READY • HYBRID QR • CMYK STYLE"
+      : "DIGITAL READY • HYBRID QR • RGB",
     W / 2,
-    820,
+    825,
   );
 }
 
 /* =========================================================
-   CARD COMPONENT
+   QR CARD COMPONENT
 ========================================================= */
 
 function QRCard({
   title,
   description,
   icon: Icon,
-  data,
-  mode,
+  scale,
   filename,
   accent,
+  printMode,
 }: {
   title: string;
   description: string;
   icon: React.ElementType;
-  data: string;
-  mode: "online" | "offline";
+  scale: number;
   filename: string;
   accent: string;
+  printMode: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -311,11 +355,10 @@ function QRCard({
 
     drawCard({
       canvas: canvasRef.current,
-      data,
-      mode,
-      scale: 2,
+      scale,
+      printMode,
     }).then(() => setLoading(false));
-  }, [data, mode]);
+  }, [scale, printMode]);
 
   function download() {
     if (!canvasRef.current) return;
@@ -347,7 +390,7 @@ function QRCard({
       </div>
 
       {/* CANVAS */}
-      <div className="overflow-hidden rounded-2xl">
+      <div className="overflow-hidden rounded-2xl shadow-xl">
         <canvas
           ref={canvasRef}
           style={{
@@ -384,82 +427,25 @@ function QRCard({
           <Share2 className="h-5 w-5" />
         </button>
       </div>
+
+      {/* INFO */}
+      <div className="mt-4 rounded-xl bg-secondary/40 p-4 text-sm text-foreground/70">
+        <p className="font-semibold text-foreground">
+          {printMode ? "Best for print:" : "Best for digital:"}
+        </p>
+
+        <p className="mt-1">
+          {printMode
+            ? "Business cards, posters, flyers, banners, events"
+            : "Phones, social sharing, email, websites, networking"}
+        </p>
+      </div>
     </div>
   );
 }
 
 /* =========================================================
-   PAGE
-========================================================= */
-
-function QRPage() {
-  return (
-    <main className="min-h-screen bg-brand-navy-deep px-4 py-8 text-foreground md:px-8">
-      <div className="mx-auto max-w-5xl space-y-10">
-        {/* HEADER */}
-        <div>
-          <h1 className="text-4xl font-extrabold tracking-tight">
-            QR Code Cards
-          </h1>
-
-          <div className="mt-3 h-1 w-20 rounded bg-brand-red" />
-
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-foreground/70">
-            Download professional digital and offline QR business cards for
-            networking, events, conferences, printouts, and mobile sharing.
-          </p>
-        </div>
-
-        {/* INFO */}
-        <div className="grid gap-4 rounded-3xl bg-card p-6 shadow-[var(--shadow-card)] md:grid-cols-3">
-          <InfoItem
-            icon={Globe}
-            title="Online Digital Card"
-            text="Opens responsive landing page experience."
-          />
-
-          <InfoItem
-            icon={WifiOff}
-            title="Offline Contact QR"
-            text="Save contact instantly without internet."
-          />
-
-          <InfoItem
-            icon={CheckCircle2}
-            title="High Quality Export"
-            text="Optimized for mobile and professional printing."
-          />
-        </div>
-
-        {/* CARDS */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          <QRCard
-            title="Online QR Card"
-            description="Best for websites, phones & social sharing"
-            icon={Smartphone}
-            data={WEBSITE_URL}
-            mode="online"
-            filename="ratiasb-online-qr.png"
-            accent="#3b82f6"
-          />
-
-          <QRCard
-            title="Offline Contact QR"
-            description="Works even without internet connection"
-            icon={Printer}
-            data={VCARD}
-            mode="offline"
-            filename="ratiasb-offline-contact-qr.png"
-            accent="#c0392b"
-          />
-        </div>
-      </div>
-    </main>
-  );
-}
-
-/* =========================================================
-   INFO ITEM
+   INFO CARD
 ========================================================= */
 
 function InfoItem({
@@ -481,5 +467,76 @@ function InfoItem({
 
       <p className="mt-1 text-sm text-foreground/65">{text}</p>
     </div>
+  );
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+function QRPage() {
+  return (
+    <main className="min-h-screen bg-brand-navy-deep px-4 py-8 text-foreground md:px-8">
+      <div className="mx-auto max-w-6xl space-y-10">
+        {/* HEADER */}
+        <div>
+          <h1 className="text-4xl font-extrabold tracking-tight">
+            Hybrid QR Business Cards
+          </h1>
+
+          <div className="mt-3 h-1 w-20 rounded bg-brand-red" />
+
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-foreground/70">
+            One smart QR code that works online and offline.
+            Users can instantly save your contact and access your digital profile
+            from any device.
+          </p>
+        </div>
+
+        {/* INFO SECTION */}
+        <div className="grid gap-4 rounded-3xl bg-card p-6 shadow-[var(--shadow-card)] md:grid-cols-3">
+          <InfoItem
+            icon={Wifi}
+            title="Hybrid QR"
+            text="One QR code for contact saving and digital profile access."
+          />
+
+          <InfoItem
+            icon={CheckCircle2}
+            title="Offline Ready"
+            text="Users can save contact details without internet."
+          />
+
+          <InfoItem
+            icon={Share2}
+            title="Professional Networking"
+            text="Optimized for conferences, printouts and mobile sharing."
+          />
+        </div>
+
+        {/* QR CARDS */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          <QRCard
+            title="RGB Hybrid QR"
+            description="Digital devices & online sharing"
+            icon={Smartphone}
+            scale={2}
+            filename="ratiasb-hybrid-rgb.png"
+            accent="#3b82f6"
+            printMode={false}
+          />
+
+          <QRCard
+            title="CMYK Hybrid QR"
+            description="Printouts, business cards & posters"
+            icon={Printer}
+            scale={3}
+            filename="ratiasb-hybrid-print.png"
+            accent="#c0392b"
+            printMode={true}
+          />
+        </div>
+      </div>
+    </main>
   );
 }
