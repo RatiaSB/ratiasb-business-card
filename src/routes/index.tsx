@@ -12,7 +12,6 @@ import {
   FileText,
   Globe,
   ChevronRight,
-  QrCode,
   Code2,
   Share2,
 } from "lucide-react";
@@ -219,22 +218,7 @@ function Index() {
               </div>
             </div>
 
-            {/* QR — desktop */}
-            <div className="relative mx-auto flex flex-col items-center gap-3 lg:mx-0">
-              <div className="rounded-2xl bg-white p-3 shadow-xl">
-                <img
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fyourportfolio.com&margin=0"
-                  alt="QR code linking to portfolio"
-                  width={200}
-                  height={200}
-                  className="h-44 w-44 sm:h-52 sm:w-52"
-                />
-              </div>
-              <button className="inline-flex items-center gap-2 rounded-full bg-brand-navy-deep/70 px-4 py-2 text-xs font-semibold text-white backdrop-blur transition hover:bg-brand-navy-deep">
-                <QrCode className="h-4 w-4" />
-                SCAN TO CONNECT
-              </button>
-            </div>
+            {/* QR removed from menu — access via direct link */}
           </div>
         </section>
 
