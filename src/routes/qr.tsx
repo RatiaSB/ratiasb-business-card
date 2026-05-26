@@ -372,33 +372,40 @@ function QRCard({
 
     // For print mode, render a higher-resolution canvas and embed as high-quality JPEG
     if (printMode) {
-      const baseCanvas = canvasRef.current;
-
-      // Render at a higher pixel density for better PDF embed quality.
-      // Use a multiplier (2x or 3x) to increase embedded image resolution.
-      const multiplier = 2;
+      // Render at a higher pixel density for server-side CMYK conversion.
+      const multiplier = 3; // higher multiplier for better print resolution
       const hiResCanvas = document.createElement("canvas");
 
-      // drawCard expects scale relative to the design W/H, so calculate a new scale
       const hiResScale = scale * multiplier;
 
-      hiResCanvas.width = W * hiResScale;
-      hiResCanvas.height = H * hiResScale;
-
-      // Draw the card at the higher scale onto the hi-res canvas
+      // drawCard will set canvas.width/height based on the provided scale,
+      // so pass the hiResCanvas directly and let drawCard size it.
       await drawCard({ canvas: hiResCanvas, scale: hiResScale, printMode });
 
-      // Convert to high-quality JPEG (smaller than PNG, widely supported in PDFs)
-      const dataUrl = hiResCanvas.toDataURL("image/jpeg", 1.0);
+      // Convert to PNG data URL to send lossless image to server
+      const dataUrl = hiResCanvas.toDataURL("image/png");
 
-      // Create a PDF sized to the hi-res canvas in pixels so the image is embedded at 1:1
-      const pdf = new jsPDF({ unit: "px", format: [hiResCanvas.width, hiResCanvas.height] });
+      try {
+        const resp = await fetch('/api/convert-to-cmyk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: dataUrl, filename }),
+        });
 
-      pdf.addImage(dataUrl, "JPEG", 0, 0, hiResCanvas.width, hiResCanvas.height, undefined, "FAST");
+        if (!resp.ok) throw new Error('Conversion failed');
 
-      pdf.save(filename.replace(/\.png$/i, ".pdf"));
-
-      return;
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename.replace(/\.png$/i, '.pdf');
+        a.click();
+        URL.revokeObjectURL(url);
+        return;
+      } catch (err) {
+        console.error('Server CMYK conversion failed, falling back to client PDF', err);
+        // fallback: continue to client-side PDF generation below
+      }
     }
 
     // Fallback: download PNG for digital mode
