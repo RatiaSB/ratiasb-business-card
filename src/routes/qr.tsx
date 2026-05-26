@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
+import { jsPDF } from "jspdf";
 import {
   Smartphone,
   Printer,
@@ -369,6 +370,25 @@ function QRCard({
   function download() {
     if (!canvasRef.current) return;
 
+    // For print mode, generate a high-resolution PDF
+    if (printMode) {
+      const canvas = canvasRef.current;
+
+      // Create a PDF sized to the canvas in pixels so the image is embedded at 1:1
+      const pdf = new jsPDF({ unit: "px", format: [canvas.width, canvas.height] });
+
+      const dataUrl = canvas.toDataURL("image/png");
+
+      // Add the canvas as a full-page image
+      pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
+
+      // Save as PDF (use same filename but .pdf)
+      pdf.save(filename.replace(/\.png$/i, ".pdf"));
+
+      return;
+    }
+
+    // Fallback: download PNG for digital mode
     const a = document.createElement("a");
 
     a.href = canvasRef.current.toDataURL("image/png");
