@@ -104,6 +104,12 @@ async function drawCard({
 }) {
   const ctx = canvas.getContext("2d")!;
 
+  // Use the project's configured sans font (from CSS custom property)
+  const rawFont = getComputedStyle(document.documentElement).getPropertyValue(
+    "--font-sans",
+  );
+  const fontFamily = rawFont ? rawFont.trim() : 'Inter, system-ui, sans-serif';
+
   canvas.width = W * scale;
   canvas.height = H * scale;
 
@@ -153,12 +159,12 @@ async function drawCard({
   ctx.textAlign = "center";
 
   ctx.fillStyle = WHITE;
-  ctx.font = "bold 34px Inter";
+    ctx.font = `bold 34px ${fontFamily}`;
 
   ctx.fillText("Swatsi Bongani Ratia", W / 2, 70);
 
   ctx.fillStyle = "rgba(255,255,255,0.72)";
-  ctx.font = "18px Inter";
+    ctx.font = `18px ${fontFamily}`;
 
   ctx.fillText("Software Developer", W / 2, 102);
 
@@ -274,8 +280,8 @@ async function drawCard({
   ctx.fillStyle = RED;
   ctx.fill();
 
-  ctx.fillStyle = WHITE;
-  ctx.font = "bold 15px Inter";
+    ctx.fillStyle = WHITE;
+    ctx.font = `bold 15px ${fontFamily}`;
 
   ctx.fillText("SCAN TO SAVE & CONNECT", W / 2, btnY + 31);
 
@@ -284,7 +290,7 @@ async function drawCard({
   ========================================================= */
 
   ctx.fillStyle = "rgba(255,255,255,0.7)";
-  ctx.font = "16px Inter";
+    ctx.font = `16px ${fontFamily}`;
 
   ctx.fillText("ratiasb.lovable.app", W / 2, btnY + 90);
 
@@ -300,7 +306,7 @@ async function drawCard({
     "• Works online & offline",
   ];
 
-  ctx.font = "15px Inter";
+  ctx.font = `15px ${fontFamily}`;
   ctx.fillStyle = "rgba(255,255,255,0.82)";
 
   features.forEach((feature, i) => {
@@ -314,7 +320,7 @@ async function drawCard({
   ctx.textAlign = "center";
 
   ctx.fillStyle = "rgba(255,255,255,0.42)";
-  ctx.font = "13px Inter";
+  ctx.font = `13px ${fontFamily}`;
 
   ctx.fillText(
     printMode
