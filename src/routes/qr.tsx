@@ -367,22 +367,35 @@ function QRCard({
     }).then(() => setLoading(false));
   }, [scale, printMode]);
 
-  function download() {
+  async function download() {
     if (!canvasRef.current) return;
 
-    // For print mode, generate a high-resolution PDF
+    // For print mode, render a higher-resolution canvas and embed as high-quality JPEG
     if (printMode) {
-      const canvas = canvasRef.current;
+      const baseCanvas = canvasRef.current;
 
-      // Create a PDF sized to the canvas in pixels so the image is embedded at 1:1
-      const pdf = new jsPDF({ unit: "px", format: [canvas.width, canvas.height] });
+      // Render at a higher pixel density for better PDF embed quality.
+      // Use a multiplier (2x or 3x) to increase embedded image resolution.
+      const multiplier = 2;
+      const hiResCanvas = document.createElement("canvas");
 
-      const dataUrl = canvas.toDataURL("image/png");
+      // drawCard expects scale relative to the design W/H, so calculate a new scale
+      const hiResScale = scale * multiplier;
 
-      // Add the canvas as a full-page image
-      pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
+      hiResCanvas.width = W * hiResScale;
+      hiResCanvas.height = H * hiResScale;
 
-      // Save as PDF (use same filename but .pdf)
+      // Draw the card at the higher scale onto the hi-res canvas
+      await drawCard({ canvas: hiResCanvas, scale: hiResScale, printMode });
+
+      // Convert to high-quality JPEG (smaller than PNG, widely supported in PDFs)
+      const dataUrl = hiResCanvas.toDataURL("image/jpeg", 1.0);
+
+      // Create a PDF sized to the hi-res canvas in pixels so the image is embedded at 1:1
+      const pdf = new jsPDF({ unit: "px", format: [hiResCanvas.width, hiResCanvas.height] });
+
+      pdf.addImage(dataUrl, "JPEG", 0, 0, hiResCanvas.width, hiResCanvas.height, undefined, "FAST");
+
       pdf.save(filename.replace(/\.png$/i, ".pdf"));
 
       return;
